@@ -14,7 +14,7 @@ picture: assets/images/profile.png
 # and specify source (external or local).
 resume: false
 #resume-external: true
-# resume-url: assets/pdfs/nayema-nasir-public-resume.pdf
+resume-url: assets/pdfs/nayema-nasir-resume.pdf
 
 url: http://nayemanasir.com
 # your url: http://USERNAME.github.io
