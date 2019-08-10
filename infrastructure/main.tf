@@ -4,7 +4,7 @@ provider "aws" {
 }
 
 variable "domain_name" {
-  default = "nayemanasir.com"
+  default = "nayema.ca"
 }
 
 terraform {
@@ -22,6 +22,7 @@ data "aws_route53_zone" "zone" {
 
 resource "aws_acm_certificate" "cert" {
   domain_name = var.domain_name
+  subject_alternative_names = ["*.${var.domain_name}"]
   validation_method = "DNS"
 }
 
@@ -38,7 +39,7 @@ resource "aws_route53_record" "cert_validation" {
   type = aws_acm_certificate.cert.domain_validation_options[0].resource_record_type
   zone_id = data.aws_route53_zone.zone.id
   records = [aws_acm_certificate.cert.domain_validation_options[0].resource_record_value]
-  ttl = 300
+  ttl = 3600
 }
 
 resource "aws_acm_certificate_validation" "cert_validation" {
@@ -104,5 +105,17 @@ resource "aws_cloudfront_distribution" "distribution" {
     cloudfront_default_certificate = false
     minimum_protocol_version = "TLSv1.1_2016"
     ssl_support_method = "sni-only"
+  }
+}
+
+resource "aws_route53_record" "main" {
+  name = var.domain_name
+  type = "A"
+  zone_id = data.aws_route53_zone.zone.id
+
+  alias {
+    evaluate_target_health = false
+    name = aws_cloudfront_distribution.distribution.domain_name
+    zone_id = aws_cloudfront_distribution.distribution.hosted_zone_id
   }
 }
