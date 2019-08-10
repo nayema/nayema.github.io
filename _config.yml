@@ -16,7 +16,7 @@ resume: false
 #resume-external: true
 resume-url: assets/pdfs/nayema-nasir-resume.pdf
 
-url: https://nayemanasir.com
+url: https://nayema.ca
 # your url: https://USERNAME.github.io
 
 permalink: /:title/
